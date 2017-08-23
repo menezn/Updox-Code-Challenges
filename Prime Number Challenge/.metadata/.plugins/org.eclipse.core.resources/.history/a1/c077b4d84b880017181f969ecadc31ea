@@ -1,0 +1,76 @@
+package prime;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class WheelGenerator implements PrimeNumberGenerator {
+	
+	private class IntegerLimit {
+		public IntegerLimit(int i, int n) {
+			value = i;
+			limit = n;
+		}
+		
+		public Integer value;
+		public int limit;
+	}
+	
+	private static List<Integer> primes = new ArrayList<Integer>();
+	private static List<IntegerLimit> primeQueue = Collections.synchronizedList(new LinkedList<IntegerLimit>());
+	private static Set<Integer> smallPrimes = new HashSet<Integer>(Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23));
+	private static int wheelCircumference = 223092870;
+	private static int MAX_VALUE = Integer.MAX_VALUE;
+	private static int max_sieved = -1;
+	
+	private static ReentrantLock lock = new ReentrantLock();
+
+	@Override
+	public List<Integer> generate(int startingValue, int endingValue) {
+		
+		if (endingValue < startingValue) {
+			int tmp = startingValue;
+			startingValue = endingValue;
+			endingValue = tmp;
+		}
+		
+		List<Integer> returnType;// = generateWheelList(startingValue,endingValue);
+//		Sieve.sieve(returnType);
+		
+		return null;
+	}
+
+	@Override
+	public boolean isPrime(int value) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+	
+	public void generateWheelList() {
+		
+		IntegerLimit current = primeQueue.get(0);
+		primeQueue.remove(0);
+	}
+	
+	public void generatePrimaryList() {
+		primes.add(2);
+		int n = 2;
+		int sqr = 4;
+		
+		for (int i = 3; i <= wheelCircumference; i+=2) {
+			
+			primeQueue.add(new IntegerLimit(i,n));
+			
+			if (i == sqr) {
+				n++;
+				sqr = i * i;
+			}
+			System.out.println(i);
+		}
+	}
+}

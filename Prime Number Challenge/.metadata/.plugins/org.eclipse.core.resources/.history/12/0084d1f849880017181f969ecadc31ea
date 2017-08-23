@@ -1,0 +1,6 @@
+package prime;
+
+public class IntegerLimit {
+	public Integer value;
+	public int limit;
+}

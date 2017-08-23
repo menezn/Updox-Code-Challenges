@@ -1,0 +1,25 @@
+package prime;
+
+import java.util.List;
+
+public class WheelGenerator implements PrimeNumberGenerator {
+	
+	private List<Integer> smallPrimes;
+
+	@Override
+	public List<Integer> generate(int startingValue, int endingValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isPrime(int value) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public void generateWheelList() {
+		
+	}
+
+}
