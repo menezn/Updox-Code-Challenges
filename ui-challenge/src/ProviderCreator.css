@@ -1,0 +1,22 @@
+.Creator-body {
+  background-color: #F2F2F0;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.Creator-title {
+  margin: 0px;
+  padding: 5% 10% 2.5% 6%;
+  text-align: left;
+}
+
+.Creator-label {
+  margin: 0px;
+  padding: 2.5% 10% 2.5% 6%;
+  text-align: left;
+}
+
+.Creator-input {
+  text-align: left;
+}
