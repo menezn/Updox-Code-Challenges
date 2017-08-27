@@ -1,5 +1,7 @@
 package prime;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,8 +12,8 @@ public class BlackBoxTesting {
 	private static WheelGenerator generator = new WheelGenerator();
 	@Test
 	public void timeTest() {
-		generator.generatePrimaryList();
-		generator.generate(1, 1000000000);
+		// 1 million time test
+		generator.generate(1, 1000000);
 	}
 
 	@Test
@@ -19,7 +21,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(1, 10);
 		List<Integer> testType = Arrays.asList(2,3,5,7);
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -27,7 +29,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(10, 1);
 		List<Integer> testType = Arrays.asList(2,3,5,7);
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -35,7 +37,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(7900, 7920);
 		List<Integer> testType = Arrays.asList(7901, 7907, 7919);
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 
 	@Test
@@ -43,7 +45,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(1, 200);
 		List<Integer> testType = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199);
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -51,7 +53,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(1, 1);
 		List<Integer> testType = Arrays.asList();
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -59,7 +61,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(-10, 10);
 		List<Integer> testType = Arrays.asList(2,3,5,7);
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -67,7 +69,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(-100, -10);
 		List<Integer> testType = Arrays.asList();
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -75,7 +77,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(1, 2);
 		List<Integer> testType = Arrays.asList(2);
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -83,7 +85,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(3, 4);
 		List<Integer> testType = Arrays.asList(3);
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -91,7 +93,7 @@ public class BlackBoxTesting {
 		List<Integer> returnType = generator.generate(2, 3);
 		List<Integer> testType = Arrays.asList(2,3);
 		
-		assert(testType.equals(returnType));
+		assertEquals(testType, returnType);
 	}
 	
 	@Test
@@ -130,5 +132,12 @@ public class BlackBoxTesting {
 	@Test
 	public void IsPrimeTest_5() {
 		assert(generator.isPrime(1000000007));
+		generator.setOff();
+	}
+	
+	@Test
+	public void IsPrimeTest_6() {
+		assert(generator.isPrime(2147483647));
+		generator.setOff();
 	}
 }

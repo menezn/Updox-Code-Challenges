@@ -1,0 +1,183 @@
+package prime;
+
+import java.util.HashMap;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+// Custom Container class to help with priority reads and writes
+
+public class ReentrantPriorityReadWriteLock {
+
+	// Basic Lock and Priority Lock
+	private ReentrantReadWriteLock bLock;
+	private ReentrantReadWriteLock pLock;
+	
+	// Variables to handle Priority Requests
+	private int priorityReadRequestCount  = 0;
+	private int priorityWriteRequestCount = 0;
+	
+	// Private class that holds the properties of a thread
+	private class DoubleBoolean {
+		public DoubleBoolean(boolean priority, boolean readWrite) {
+			this.priority  = priority;
+			this.readWrite = readWrite;
+		}
+		
+		public boolean priority;  // true if priority
+		public boolean readWrite; // true if read
+	}
+	// Map to all the threads using this read write lock container
+	private HashMap<Thread, DoubleBoolean> threads;
+	
+	public ReentrantPriorityReadWriteLock() {
+		 bLock = new ReentrantReadWriteLock();
+		 pLock = new ReentrantReadWriteLock();
+		 threads = new HashMap<Thread, DoubleBoolean>();
+	}
+	
+	public ReentrantPriorityReadWriteLock(boolean fair) {
+		 bLock = new ReentrantReadWriteLock(fair);
+		 pLock = new ReentrantReadWriteLock(fair);
+		 threads = new HashMap<Thread, DoubleBoolean>();
+	}
+
+	// Functions to handle Priority Requests
+	public boolean hasPriorityReadRequest()  { return priorityReadRequestCount  != 0; }
+	public boolean hasPriorityWriteRequest() { return priorityWriteRequestCount != 0; }
+	
+	// Attempts to get a normal read lock
+	public void basicReadLock()   { 
+		while ( bLock.isWriteLocked() || pLock.isWriteLocked()) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		bLock.readLock().lock();
+		threads.put(Thread.currentThread(), new DoubleBoolean(false,true));  
+	}
+	
+	public void basicWriteLock() { 
+		while ( bLock.isWriteLocked()        || pLock.isWriteLocked() ||
+				bLock.getReadHoldCount() > 0 || pLock.getReadHoldCount() > 0) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		bLock.writeLock().lock();
+		
+		threads.put(Thread.currentThread(), new DoubleBoolean(false,false)); 
+	}
+	
+	// Allows the priority threads to ask all non-priority threads to stop
+	// This way there is less waiting for tasks that need to be done now
+	// This allows for priority to have more precedence than non-priority
+	// However they must still wait for priority writes
+	public void priorityReadLock() {
+		priorityReadRequestCount++;
+		while (bLock.isWriteLocked()) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		pLock.readLock().lock();
+		threads.put(Thread.currentThread(), new DoubleBoolean(true,true));
+		priorityReadRequestCount--;
+	}
+	
+	// Allows the priority threads to ask all non-priority threads to stop
+	// This way there is less waiting for tasks that need to be done now
+	// This allows for priority to have more precedence than non-priority
+		// However they must still wait for priority writes
+	public void priorityWriteLock() {
+		priorityWriteRequestCount++;
+		while (bLock.getReadHoldCount() > 0) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		pLock.writeLock().lock();
+		threads.put(Thread.currentThread(), new DoubleBoolean(true,false));
+		priorityWriteRequestCount--;
+	}
+	
+	public void basicReadLockRelease()     { bLock.readLock().unlock();  threads.remove(Thread.currentThread()); }
+	public void basicWriteLockRelease()    { bLock.writeLock().unlock(); threads.remove(Thread.currentThread()); }
+	public void priorityReadLockRelease()  { pLock.readLock().unlock();  threads.remove(Thread.currentThread()); }
+	public void priorityWriteLockRelease() { pLock.writeLock().unlock(); threads.remove(Thread.currentThread()); }
+	
+	public void shouldStopAndWait() {
+		DoubleBoolean threadProperties = threads.get(Thread.currentThread());
+		if (threadProperties == null) return;
+		
+		if (!threadProperties.priority && ((hasPriorityReadRequest()  && !threadProperties.readWrite) || 
+										  (hasPriorityWriteRequest() &&  threadProperties.readWrite))) {
+			
+			if (threadProperties.readWrite)
+				basicReadLockRelease();
+			else
+				basicWriteLockRelease();
+			
+			while (( threadProperties.readWrite && pLock.isWriteLocked()) ||
+				   (!threadProperties.readWrite && pLock.getReadHoldCount() > 0)) {
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if (threadProperties.readWrite)
+				basicReadLock();
+			else
+				basicWriteLock();
+		}
+	}
+	
+	// Alias all other functions for use
+	
+	public int getBasicQueueLength()    { return bLock.getQueueLength(); }
+	public int getPriorityQueueLength() { return pLock.getQueueLength(); }
+	
+	public int getBasicReadHoldCount()     { return bLock.getReadHoldCount(); }
+	public int getPrioirityReadHoldCount() { return pLock.getReadHoldCount(); }
+	
+	public int getBasicReadLockCount()	  { return bLock.getReadLockCount(); }
+	public int getPriorityReadLockCount() { return pLock.getReadLockCount(); }
+	
+	public int getBasicWaitQueueLength(Condition condition)	   { return bLock.getWaitQueueLength(condition); }
+	public int getPriorityWaitQueueLength(Condition condition) { return pLock.getWaitQueueLength(condition); }
+	
+	public int getBasicWriteHoldCount()	   { return bLock.getWriteHoldCount(); }
+	public int getPriorityWriteHoldCount() { return pLock.getWriteHoldCount(); }
+	
+	public boolean hasBasicQueuedThread(Thread thread)	  { return bLock.hasQueuedThread(thread); }
+	public boolean hasPriorityQueuedThread(Thread thread) { return pLock.hasQueuedThread(thread); }
+	
+	public boolean hasBasicQueuedThreads()	  { return bLock.hasQueuedThreads(); }
+	public boolean hasPriorityQueuedThreads() { return pLock.hasQueuedThreads(); }
+	
+	public boolean hasBasicWaiters(Condition condition)	   { return bLock.hasWaiters(condition); }
+	public boolean hasPriorityWaiters(Condition condition) { return pLock.hasWaiters(condition); }
+	
+	public boolean isBasicFair()	{ return bLock.isFair(); }
+	public boolean isPriorityFair() { return pLock.isFair(); }
+	
+	public boolean isBasicWriteLocked()	   { return bLock.isWriteLocked(); }
+	public boolean isPriorityWriteLocked() { return pLock.isWriteLocked(); }
+	
+	public boolean isBasicWriteLockedByCurrentThread()	  { return bLock.isWriteLockedByCurrentThread(); }
+	public boolean isPriorityWriteLockedByCurrentThread() { return pLock.isWriteLockedByCurrentThread(); }
+	
+	public String toBasicString()	 { return bLock.toString(); }
+	public String toPriorityString() { return pLock.toString(); }
+
+}
+
