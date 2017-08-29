@@ -1,6 +1,6 @@
 Prime Number Challenge:
 
-Takes in two arguments commandline
+Takes in two arguments commandline (Main in WheelGeneration)
   <startingValue> <endingValue>
 
 For the Prime Number challenge I opted to trying out a sieving/wheel-generation

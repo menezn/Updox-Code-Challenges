@@ -8,23 +8,38 @@
 
 .List-title {
   font-size: 1.3em;
-  width: 30%;
+  width: 25%;
   float: left;
   margin: 0px;
-  padding: 2% 10% 2.5% 3%;
+  padding: 2% 5% 2.5% 3%;
   text-align: left;
   font-size: 1.3em;
 }
 
+.Search-bar {
+  margin: 0px;
+  padding: 2% 5% 2.5% 3%;
+  text-align: left;
+  float: left;
+  width: 30%;
+}
+
+.Search-input {
+  margin-left: 13%;
+  padding: 0% auto;
+}
+
+.Search-title {
+  margin: 0px;
+  text-align: center;
+}
 
 .List-sorter {
-  position: absolute;
-  margin: 2.5% 0%;
+  margin: 23% 5%;
 }
 
 .List-sorter-box {
-
-  position: relative;
+  float: left;
 }
 
 .List-header {

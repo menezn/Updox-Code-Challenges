@@ -49,7 +49,8 @@ class App extends Component {
        value: "",
        error: false}
     ],
-    sortID: "Ascending Name"
+    sortID: "Ascending Name",
+    search: ""
   };
 
     // Binds all the functions so that they can use this
@@ -59,6 +60,7 @@ class App extends Component {
     this.sortProvider = this.sortProvider.bind(this);
     this.handleNewFormSubmition = this.handleNewFormSubmition.bind(this);
     this.handleDeleteFormSubmit = this.handleDeleteFormSubmit.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
 
   }
 
@@ -83,6 +85,11 @@ class App extends Component {
     if (e.target.value !== "") providersCreateContent[i].error = false;
     this.setState({providersCreateContent})
 
+  }
+
+  handleSearchChange(e) {
+    e.preventDefault();
+    this.setState({search: e.target.value});
   }
 
   // handles the click event of the checkboxes
@@ -231,7 +238,7 @@ class App extends Component {
             <ProviderCreator providersCreateContent={this.state.providersCreateContent} handleNewFormSubmition={this.handleNewFormSubmition} handleChange={this.handleChange}/>
           </div>
           <div className="Provider-list">
-            <ProviderList providersList={this.state.providersList} onToggle={this.onToggle} handleDeleteFormSubmit={this.handleDeleteFormSubmit} sortID={this.state.sortID} sortFunction={this.sortFunction} sortProvider={this.sortProvider}/>
+            <ProviderList providersList={this.state.providersList} onToggle={this.onToggle} handleDeleteFormSubmit={this.handleDeleteFormSubmit} sortID={this.state.sortID} sortFunction={this.sortFunction} handleSearchChange={this.handleSearchChange} sortProvider={this.sortProvider} search={this.state.search}/>
           </div>
         </div>
       </div>
