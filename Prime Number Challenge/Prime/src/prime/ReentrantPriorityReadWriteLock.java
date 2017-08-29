@@ -47,6 +47,11 @@ public class ReentrantPriorityReadWriteLock {
 	
 	// Attempts to get a normal read lock
 	public void basicReadLock()   { 
+		// Check if this thread already has a lock
+		DoubleBoolean content = null;
+		if (threads.containsKey(Thread.currentThread())) content = threads.get(Thread.currentThread());
+		if (content != null && content.priority == false && content.readWrite == true) return;
+		
 		while ( bLock.isWriteLocked() || pLock.isWriteLocked()) {
 			try {
 				Thread.sleep(10);
@@ -61,6 +66,11 @@ public class ReentrantPriorityReadWriteLock {
 	
 	// Attempts to get a normal write lock
 	public void basicWriteLock() { 
+		// Check if this thread already has a lock
+		DoubleBoolean content = null;
+		if (threads.containsKey(Thread.currentThread())) content = threads.get(Thread.currentThread());
+		if (content != null && content.priority == false && content.readWrite == false) return;
+		
 		while ( bLock.isWriteLocked()        || pLock.isWriteLocked() ||
 				bLock.getReadHoldCount() > 0 || pLock.getReadHoldCount() > 0) {
 			try {
@@ -79,6 +89,11 @@ public class ReentrantPriorityReadWriteLock {
 	// This allows for priority to have more precedence than non-priority
 	// However they must still wait for priority writes
 	public void priorityReadLock() {
+		// Check if this thread already has a lock
+		DoubleBoolean content = null;
+		if (threads.containsKey(Thread.currentThread())) content = threads.get(Thread.currentThread());
+		if (content != null && content.priority == true && content.readWrite == true) return;
+		
 		priorityReadRequestCount++;
 		while (bLock.isWriteLocked()) {
 			try {
@@ -98,6 +113,11 @@ public class ReentrantPriorityReadWriteLock {
 	// This allows for priority to have more precedence than non-priority
 		// However they must still wait for priority writes
 	public void priorityWriteLock() {
+		// Check if this thread already has a lock
+		DoubleBoolean content = null;
+		if (threads.containsKey(Thread.currentThread())) content = threads.get(Thread.currentThread());
+		if (content != null && content.priority == true && content.readWrite == false) return;
+		
 		priorityWriteRequestCount++;
 		while (bLock.getReadHoldCount() > 0) {
 			try {

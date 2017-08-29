@@ -1,5 +1,5 @@
 .Creator-body {
-  background-color: #F2F2F0;
+  background-color: #F4F5F5;
   height: 100%;
   width: 100%;
   border-radius: 10px;
@@ -9,6 +9,7 @@
   margin: 0px;
   padding: 5% 10% 2.5% 6%;
   text-align: left;
+  font-size: 1.3em;
 }
 
 .Creator-label {
@@ -18,9 +19,44 @@
 }
 
 .Creator-input {
+  border: 0px;
+  width: 70%;
+  height: 90%;
+  font-size: .75em;
+}
 
+.Creator-input:hover {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.19);
+}
+
+.Creator-title-box {
+  height: 13%;
+}
+
+.Creator-form {
+  padding: 0% 5%;
+  height: 87%;
+}
+
+.Creator-box {
+  height: 40%;
+}
+
+.Creator-form-input {
+  height: 17%;
+  font-size: 1em;
+}
+
+.Creator-submit-button-box {
+  height: 15%;
+  width: 100%;
+  padding-top: 2%;
 }
 
 .Creator-submit-button {
-  
+  background: #5E8BC3;
+  border-radius: 15px;
+  color: #ffffff;
+  font-size: 1em;
+  padding: 5px 7px;
 }

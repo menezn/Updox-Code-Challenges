@@ -98,46 +98,46 @@ public class BlackBoxTesting {
 	
 	@Test
 	public void IsPrimeTest_1() {
-		assert(!generator.isPrime(1));
+		assertFalse(generator.isPrime(1));
 	}
 	
 	@Test
 	public void IsPrimeTest_2() {
-		assert(generator.isPrime(2));
-		assert(!generator.isPrime(4));
-		assert(!generator.isPrime(6));
-		assert(!generator.isPrime(8));
-		assert(!generator.isPrime(10));
+		assertTrue(generator.isPrime(2));
+		assertFalse(generator.isPrime(4));
+		assertFalse(generator.isPrime(6));
+		assertFalse(generator.isPrime(8));
+		assertFalse(generator.isPrime(10));
 	}
 	
 	@Test
 	public void IsPrimeTest_3() {
-		assert(!generator.isPrime(1 ));
-		assert( generator.isPrime(2 ));
-		assert( generator.isPrime(3 ));
-		assert(!generator.isPrime(4 ));
-		assert( generator.isPrime(5 ));
-		assert(!generator.isPrime(6 ));
-		assert( generator.isPrime(7 ));
-		assert(!generator.isPrime(8 ));
-		assert(!generator.isPrime(9 ));
-		assert(!generator.isPrime(10));
+		assertFalse(generator.isPrime(1 ));
+		assertTrue(generator.isPrime(2 ));
+		assertTrue(generator.isPrime(3 ));
+		assertFalse(generator.isPrime(4 ));
+		assertTrue(generator.isPrime(5 ));
+		assertFalse(generator.isPrime(6 ));
+		assertTrue(generator.isPrime(7 ));
+		assertFalse(generator.isPrime(8 ));
+		assertFalse(generator.isPrime(9 ));
+		assertFalse(generator.isPrime(10));
 	}
 	
 	@Test
 	public void IsPrimeTest_4() {
-		assert(generator.isPrime(999999937));
+		assertTrue(generator.isPrime(999999937));
 	}
 	
 	@Test
 	public void IsPrimeTest_5() {
-		assert(generator.isPrime(1000000007));
+		assertTrue(generator.isPrime(1000000007));
 		generator.setOff();
 	}
 	
 	@Test
 	public void IsPrimeTest_6() {
-		assert(generator.isPrime(2147483647));
+		assertTrue(generator.isPrime(2147483647));
 		generator.setOff();
 	}
 }

@@ -182,32 +182,12 @@ public class WheelGenerator implements PrimeNumberGenerator {
 			primeLock.priorityReadLock();
 		}
 		
-		// Set up for a binary search
-		int high = allPrimes.size();
-		int low = 0;
-		int i = allPrimes.size()/2;
-		
+		int i;
 		// Find the starting point that we want using binary search
 		if (startingValue > 2) {
-			while (true) {
-				
-				if (low == high || allPrimes.get(i) == startingValue ||
-					((i > 0 && allPrimes.get(i-1) < startingValue) && 
-					 (i < allPrimes.size()-1 && allPrimes.get(i) > startingValue))) break;
-
-				if (allPrimes.get(i) > startingValue && allPrimes.get(low) <= startingValue) {
-					high = i;
-					i = (i+low)/2;
-				} else if (allPrimes.get(i) <= startingValue && allPrimes.get(high) > startingValue) {
-					low = i;
-					i = (i+high)/2;
-				} else {
-
-					break;
-				}
-			}
+			i = WheelGenerator.binarySearch(allPrimes,startingValue);
 		} else
-			i = low;
+			i = 0;
 		
 		// Go through the list of primes and add the ones in the specified range.
 		while (allPrimes.size() > i && allPrimes.get(i) <= endingValue) {
@@ -217,6 +197,32 @@ public class WheelGenerator implements PrimeNumberGenerator {
 		primeLock.priorityReadLockRelease();
 		
 		return returnType;
+	}
+
+	public static int binarySearch(Vector<Integer> allPrimes2, int startingValue) {
+		// Set up for a binary search
+		int high = allPrimes.size();
+		int low = 0;
+		int i = allPrimes.size()/2;
+				
+		while (!(low == high || allPrimes.get(i) == startingValue ||
+				((i > 0 && allPrimes.get(i-1) < startingValue) && 
+						 (i < allPrimes.size()-1 && allPrimes.get(i) > startingValue)))) {
+
+			if (allPrimes.get(i) > startingValue && allPrimes.get(low) <= startingValue) {
+				high = i;
+				i = (i+low)/2;
+			} else if (allPrimes.get(i) <= startingValue && allPrimes.get(high) > startingValue) {
+				low = i;
+				i = (i+high)/2;
+			} else {
+
+				break;
+			}
+		}
+		
+		return i;
+		
 	}
 
 	@Override

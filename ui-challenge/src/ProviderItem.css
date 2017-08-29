@@ -1,0 +1,46 @@
+.List-left {
+  float: left;
+  width: 41%;
+  height: 100%;
+}
+
+.List-right {
+  float: right;
+  width: 41%;
+  height: 100%;
+}
+
+.Checkbox-box {
+  position: relative;
+  float: left;
+  width: 8%;
+  height: 100%;
+}
+
+.Checkbox {
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  height: 100px;
+  margin-top: -50px;
+
+}
+
+.Provider-item {
+  height: 100%;
+
+}
+
+.List-name, .List-email {
+  margin: 0px;
+  padding: 4.5% 2%;
+  text-align: left;
+  font-size: .75em;
+}
+
+.List-specialty, .List-practice {
+  margin: 0px;
+  padding: 4.5% 2%;
+  text-align: right;
+  font-size: .75em;
+}

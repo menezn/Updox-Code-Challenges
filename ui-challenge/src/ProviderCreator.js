@@ -10,21 +10,25 @@ class ProviderCreator extends Component {
   render() {
     return (
       <div className="Creator-body">
-        <p className="Creator-title">Create Provider</p>
-        <div className="Creator-form">
-          <div className="Creator-form-input">
-            <form onSubmit={(e) => {this.props.handleNewFormSubmition(e)}}>
-              {this.props.providersCreateContent.map((content) => {
-                return (
-                  <label key={content.text}>
-                    <p className="Creator-label"> {content.text} </p>
-                    <input className="Creator-input" type="text" value={content.value} onChange={(e) => {this.props.handleChange(e,content)}} />
-                  </label>
-              )})}
-              <button className="Creator-submit-button" type="submit">Submit</button>
-            </form>
-          </div>
+        <div className="Creator-title-box">
+          <p className="Creator-title">Create Provider</p>
         </div>
+        <form onSubmit={(e) => {this.props.handleNewFormSubmition(e)}} className="Creator-form">
+          {this.props.providersCreateContent.map((content) => {
+            return (
+              <div className="Creator-form-input" key={content.text}>
+                <label>
+                  <p className="Creator-label"> {content.text} </p>
+                  <div className="Creator-box">
+                    <input className="Creator-input" style={{"backgroundColor" : ((content.error) ? "#FFEBEB" : "#FFFFFF" )}} type="text" value={content.value} onChange={(e) => {this.props.handleChange(e,content)}} />
+                  </div>
+                </label>
+              </div>
+          )})}
+          <div className="Creator-submit-button-box">
+            <button className="Creator-submit-button" type="submit">Submit</button>
+          </div>
+        </form>
       </div>
     );
   }
