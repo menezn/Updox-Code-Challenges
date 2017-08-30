@@ -25,8 +25,9 @@
 }
 
 .Search-input {
-  margin-left: 13%;
-  padding: 0% auto;
+  /*margin-left: 13%;*/
+  display: block;
+  margin: 4px auto;
 }
 
 .Search-title {
