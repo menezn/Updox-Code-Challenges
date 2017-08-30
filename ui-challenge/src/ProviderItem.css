@@ -32,8 +32,9 @@
 }
 
 .List-name, .List-email {
+  height: 30%;
   margin: 0px;
-  padding: 4.5% 2%;
+  padding: 3.5% 2% 3.5% 2%;
   text-align: left;
   font-size: .75em;
 }

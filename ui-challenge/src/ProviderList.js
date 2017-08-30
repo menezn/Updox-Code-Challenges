@@ -47,7 +47,7 @@ class ProviderList extends Component {
           </div>
         </div>
         <div className="Scroller-content">
-          {this.props.sortProvider().filter((provider) => {return this.searchCheck(provider,this.props.search)}).map((provider) => {
+          {this.props.sortProvider([].concat([...this.props.providersList]).filter((provider) => {return this.searchCheck(provider,this.props.search)})).map((provider) => {
             return (<div className="Scroller-Item" key={provider.data.first_name + provider.data.last_name + provider.data.email_address + provider.data.specialty + provider.data.practice_name}> <ProviderItem provider = {provider} onToggle={this.props.onToggle} isToggle={provider.toggled}/> </div>)
           })}
         </div>

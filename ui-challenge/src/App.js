@@ -173,8 +173,7 @@ class App extends Component {
   // Handles the different sort methods
   // It's very chunky but it gets the job done
   // returns the sorted list of providers
-  sortProvider() {
-    let sortList = [].concat(this.state.providersList)
+  sortProvider(sortList) {
     if (this.state.sortID === "Ascending Name") {
       sortList.sort((a,b) => {
         var x = a.data.last_name + ", " + a.data.first_name; var y = b.data.last_name + ", " + b.data.first_name;
